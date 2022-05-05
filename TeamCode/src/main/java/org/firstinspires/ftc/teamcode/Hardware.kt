@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode
 
-import android.graphics.Color
 import com.qualcomm.hardware.bosch.BNO055IMU
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator
 import com.qualcomm.robotcore.hardware.*
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 
-class Hardware {
+class Hardware(hwMap: HardwareMap) {
     var motorBL: DcMotor? = null
     var motorBR: DcMotor? = null
     var motorFL: DcMotor? = null
@@ -22,25 +21,23 @@ class Hardware {
     var distanceSensorLeft: ColorRangeSensor? = null
     var distanceSensorRight: ColorRangeSensor? = null
     var distanceSensorBack: ColorRangeSensor? = null
-    var robotFlipper: Boolean = false
-    var worldHunger: Boolean = true
-    var cancerCured: Boolean = false
 
-    fun init(hwMap: HardwareMap) {
+    init {
         motorBL = hwMap.get(DcMotor::class.java, "motor0")
         motorBR = hwMap.get(DcMotor::class.java, "motor1")
-        motorFL = hwMap.get(DcMotor::class.java, "motor3")
+        motorBR?.direction = DcMotorSimple.Direction.REVERSE
         motorFR = hwMap.get(DcMotor::class.java, "motor2")
+        motorFR?.direction = DcMotorSimple.Direction.REVERSE
+        motorFL = hwMap.get(DcMotor::class.java, "motor3")
         motorDucks = hwMap.get(DcMotor::class.java, "motor4")
         motorArm = hwMap.get(DcMotor::class.java, "motor5")
-        motorArm?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER;
+        motorArm?.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         servoArm = hwMap.get(Servo::class.java, "servo0")
         webcamName = hwMap.get(WebcamName::class.java, "camera0")
         distanceSensorFront = hwMap.get(DistanceSensor::class.java, "distance0")
         distanceSensorLeft = hwMap.get(ColorRangeSensor::class.java, "color0")
         distanceSensorRight = hwMap.get(ColorRangeSensor::class.java, "color1")
         distanceSensorBack = hwMap.get(ColorRangeSensor::class.java, "color2")
-        // TODO: yeet live preview
         cameraMonitorViewId = hwMap.appContext.resources.getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.packageName)
         controlHubIMU = hwMap.get(BNO055IMU::class.java, "imu1")
         expansionHubIMU = hwMap.get(BNO055IMU::class.java, "imu0")
